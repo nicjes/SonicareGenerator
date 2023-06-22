@@ -1,7 +1,5 @@
 # SonicareGenerator
-Password Generator for Philips Sonicare NFC Brush Heads
-
-This is a web application that generates the NFC password for a Philips Sonicare toothbrush head to reset its wear timer 
+This is a web application that generates the NFC password for a Philips Sonicare toothbrush head.
 This can be used to reset its wear timer and continue using the head beyond the manufacurers recommendations.
 
 ## Usage
