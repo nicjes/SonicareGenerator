@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Philips Sonicare Password Generator</title>
+</head>
+
+<body>
+    <div class="main">
+        <h1>Philips Sonicare Password Generator</h1>
+        <form id="form">
+            <p>
+                <label for="uid">UID (NFC Tag Serial Number): </label>
+                <input type="text" id="uid" placeholder="Enter the UID" value="04:EC:FC:A2:94:10:90" />
+            </p>
+            <p>
+                <label for="mfg">MFG (Printed underneath brush head)</label>
+                <input type="text" id="mfg" placeholder="Enter the MFG" value="221214 12K" />
+            </p>
+            <button id="generate">Generate</button>
+            <p><output id="result" for="uid mfg"></output></p>
+        </form>
+    </div>
+    <script type="text/javascript">
+        const uidRegex = /^([0-9a-fA-F]{2}:){6}[0-9a-fA-F]{2}$/;
+        const mfgRegex = /^\d{6} \d{2}[a-zA-Z]$/;
+
+        document.getElementById("form").addEventListener("submit", handleGenerate);
+
+        function handleGenerate(e) {
+            e.preventDefault();
+            let uidInput = document.getElementById("uid").value;
+            let mfgInput = document.getElementById("mfg").value;
+
+            if (uidRegex.test(uidInput) && mfgRegex.test(mfgInput)) {
+                let uid = uidInput.split(':').map(byteStr => parseInt(byteStr, 16)); // Convert UID to bytes
+                let mfg = [...mfgInput].map(c => BigInt(c.charCodeAt(0))); // Convert MFG to bytes
+                let password = generatePassword(uid, mfg);
+                showResult(password);
+            } else {
+                showInvalid();
+            }
+        }
+
+        function showResult(result) {
+            document.getElementById("result").innerHTML = `
+        <p>Generated password: ${result}</p>
+        <p>NFC Command: 1B:${result},A2:24:00:00:02:00</p>
+    `;
+        }
+
+        function showInvalid() {
+            document.getElementById("result").innerHTML = `
+        <p>Invalid input!</p>
+    `;
+        }
+
+        // Algorithm by @ATC1441 (https://gist.github.com/atc1441/41af75048e4c22af1f5f0d4c1d94bb56)
+        function crc16(crc, buffer) {
+            for (let byte of buffer) {
+                crc ^= BigInt(byte) << BigInt(8);
+                for (let i = 0; i < 8; i++) {
+                    if (crc & BigInt(0x8000)) {
+                        crc = (crc << BigInt(1)) ^ BigInt(0x1021);
+                    } else {
+                        crc <<= BigInt(1);
+                    }
+                    crc &= BigInt(0xFFFF);
+                }
+            }
+            return crc;
+        }
+
+        // Algorithm by @ATC1441 (https://gist.github.com/atc1441/41af75048e4c22af1f5f0d4c1d94bb56)
+        function generatePassword(uid, mfg) {
+            let crc = crc16(BigInt(0x49A3), uid); // Calculate the UID CRC
+            crc = crc | crc16(crc, mfg) << BigInt(16); // Calculate the MFG CRC
+            crc = ((crc >> BigInt(8)) & BigInt(0x00FF00FF)) | ((crc << BigInt(8)) & BigInt(0xFF00FF00)); // Rotate the bytes
+
+            let password = crc.toString(16).toUpperCase().replace(/(..)(..)(..)(..)/g, '$1:$2:$3:$4'); // Format the password
+            return password;
+        }
+
+    </script>
+</body>
+
+</html>
