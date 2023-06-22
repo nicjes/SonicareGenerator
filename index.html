@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Philips Sonicare Password Generator</title>
+</head>
+
+<body>
+    <div class="main">
+        <h1>Philips Sonicare Password Generator</h1>
+        <form id="form">
+            <p>
+                <label for="uid">UID (NFC Tag Serial Number): </label>
+                <input type="text" id="uid" placeholder="Enter the UID" value="04:EC:FC:A2:94:10:90" />
+            </p>
+            <p>
+                <label for="mfg">MFG (Printed underneath brush head)</label>
+                <input type="text" id="mfg" placeholder="Enter the MFG" value="221214 12K" />
+            </p>
+            <button id="generate">Generate</button>
+            <p><output id="result" for="uid mfg"></output></p>
+        </form>
+    </div>
+    <script type="text/javascript" src="app.js"></script>
+</body>
+
+</html>
