@@ -7,7 +7,7 @@ This can be used to reset its wear timer and continue using the head beyond the 
 1. Download this repository.
 2. Download an NFC reader/writer.
 3. Scan the brush head using the NFC reader.
-4. Open the `index.html` file of this repository in a web browser.
+4. Open the `generator.html` file of this repository in a web browser.
 5. Fill in the UID field (NFC Tag Serial Number displayed in NFC reader).
 6. Fill in the MFG field (Code printed underneath brush head).
 7. Click the "Generate" button.
