@@ -4,15 +4,14 @@ This can be used to reset its wear timer and continue using the head beyond the 
 
 ## Usage
 
-1. Download this repository.
-2. Download an NFC reader/writer.
-3. Scan the brush head using the NFC reader.
-4. Open the `generator.html` file of this repository in a web browser.
-5. Fill in the UID field (NFC Tag Serial Number displayed in NFC reader).
-6. Fill in the MFG field (Code printed underneath brush head).
-7. Click the "Generate" button.
-8. If the input is valid, the generated password and an advanced NFC command will be displayed.
-9. Send this NFC command to your brush head using the NFC writer.
+1. Download an NFC reader/writer (e.g. to your Smartphone).
+2. Scan the brush head using the NFC reader.
+3. Open the generator at [https://nicjes.github.io/SonicareGenerator/](https://nicjes.github.io/SonicareGenerator/).
+4. Fill in the UID field (NFC Tag Serial Number displayed in NFC reader).
+5. Fill in the MFG field (Code printed underneath brush head).
+6. Click the "Generate" button.
+7. If the input is valid, the generated password and an advanced NFC command will be displayed.
+8. Send this NFC command to your brush head using the NFC writer.
 
 ## Input Examples
 
