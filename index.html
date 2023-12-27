@@ -78,7 +78,7 @@
             crc = crc | crc16(crc, mfg) << BigInt(16); // Calculate the MFG CRC
             crc = ((crc >> BigInt(8)) & BigInt(0x00FF00FF)) | ((crc << BigInt(8)) & BigInt(0xFF00FF00)); // Rotate the bytes
 
-            let password = crc.toString(16).toUpperCase().replace(/(..)(..)(..)(..)/g, '$1:$2:$3:$4'); // Format the password
+            let password = crc.toString(16).padStart(8, '0').toUpperCase().replace(/(..)(..)(..)(..)/g, '$1:$2:$3:$4'); // Format the password
             return password;
         }
 
